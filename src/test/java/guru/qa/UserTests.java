@@ -2,7 +2,6 @@ package guru.qa;
 
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -13,9 +12,8 @@ public class UserTests extends BaseTest {
         given()
                 .log().method()
                 .log().uri()
-                .baseUri(baseURI)
                 .when()
-                .get("users?page=2")
+                .get("/users?page=2")
                 .then()
                 .log().status()
                 .log().body()
@@ -28,9 +26,8 @@ public class UserTests extends BaseTest {
         given()
                 .log().method()
                 .log().uri()
-                .baseUri(baseURI)
                 .when()
-                .get("users/2")
+                .get("/users/2")
                 .then()
                 .log().status()
                 .log().body()
@@ -44,9 +41,8 @@ public class UserTests extends BaseTest {
         given()
                 .log().method()
                 .log().uri()
-                .baseUri(baseURI)
                 .when()
-                .get("users/42")
+                .get("/users/42")
                 .then()
                 .log().status()
                 .log().body()

@@ -3,7 +3,6 @@ package guru.qa;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -12,14 +11,11 @@ public class LoginTests extends BaseTest {
     @Test
     void successfulLoginTest() {
         given()
-                .log().method()
-                .log().uri()
-                .log().body()
-                .baseUri(baseURI)
+                .log().all()
                 .contentType(ContentType.JSON)
                 .body("{ \"email\": \"eve.holt@reqres.in\", \"password\": \"cityslicka\"}")
                 .when()
-                .post("login")
+                .post("/login")
                 .then()
                 .log().status()
                 .log().body()
@@ -30,14 +26,11 @@ public class LoginTests extends BaseTest {
     @Test
     void unsuccessfulLoginTest() {
         given()
-                .log().method()
-                .log().uri()
-                .log().body()
-                .baseUri(baseURI)
+                .log().all()
                 .contentType(ContentType.JSON)
                 .body("{ \"email\": \"eve.holt@reqres.in\"}")
                 .when()
-                .post("login")
+                .post("/login")
                 .then()
                 .log().status()
                 .log().body()
