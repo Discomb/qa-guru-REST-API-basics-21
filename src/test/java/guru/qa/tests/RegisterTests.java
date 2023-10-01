@@ -1,4 +1,4 @@
-package guru.qa;
+package guru.qa.tests;
 
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
@@ -6,31 +6,32 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
-public class LoginTests extends BaseTest {
+public class RegisterTests extends BaseTest {
 
     @Test
-    void successfulLoginTest() {
+    void successfulRegistrationTest() {
         given()
                 .log().all()
                 .contentType(ContentType.JSON)
-                .body("{ \"email\": \"eve.holt@reqres.in\", \"password\": \"cityslicka\"}")
+                .body("{\"email\": \"eve.holt@reqres.in\", \"password\": \"pistol\"}")
                 .when()
-                .post("/login")
+                .post("/register")
                 .then()
                 .log().status()
                 .log().body()
                 .statusCode(200)
+                .body("id", is(4))
                 .body("token", is("QpwL5tke4Pnpja7X4"));
     }
 
     @Test
-    void unsuccessfulLoginTest() {
+    void unsuccessfulRegistrationTest() {
         given()
                 .log().all()
                 .contentType(ContentType.JSON)
-                .body("{ \"email\": \"eve.holt@reqres.in\"}")
+                .body("{\"email\": \"sydney@fife\"}")
                 .when()
-                .post("/login")
+                .post("/register")
                 .then()
                 .log().status()
                 .log().body()
