@@ -1,14 +1,16 @@
 package guru.qa.tests;
 
-import guru.qa.models.pojo.LoginBodyPOJOModel;
-import guru.qa.models.pojo.LoginResponsePOJOModel;
 import guru.qa.models.lombok.LoginBodyModel;
 import guru.qa.models.lombok.LoginResponseModel;
+import guru.qa.models.pojo.LoginBodyPOJOModel;
+import guru.qa.models.pojo.LoginResponsePOJOModel;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static guru.qa.specs.LoginSpec.loginRequestSpec;
+import static guru.qa.specs.LoginSpec.loginResponseSpec;
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 public class LoginTests extends BaseTest {
@@ -42,16 +44,12 @@ public class LoginTests extends BaseTest {
         authData.setEmail("eve.holt@reqres.in");
         authData.setPassword("cityslicka");
 
-        LoginResponseModel response = given()
-                .log().all()
-                .contentType(ContentType.JSON)
+        LoginResponseModel response = given(loginRequestSpec)
                 .body(authData)
                 .when()
                 .post("/login")
                 .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
+                .spec(loginResponseSpec)
                 .extract().as(LoginResponseModel.class);
 
         assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
